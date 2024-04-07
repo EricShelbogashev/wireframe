@@ -1,17 +1,25 @@
-package model.objects
+package core.model.objects
 
-import model.algebra.Line3
-import model.algebra.properties.Transformable
-import model.engine.Linearizable
+import core.model.algebra.Line3
+import core.model.algebra.Point3
+import core.model.engine.SceneObject
 import kotlin.math.max
 import kotlin.math.min
 
 class WireframeObject(
     lines: List<Line3>,
-) : Linearizable, Transformable<WireframeObject> {
-    private var modifiedLines: MutableList<Line3> = mutableListOf()
+) : SceneObject<WireframeObject> {
+    private var modifiedLines: MutableList<Line3> = lines.toMutableList()
+    val lines get(): List<Line3> = modifiedLines
     var maxHeight = 0.0
     var minHeight = 255.0
+    var x: Double = 0.0
+    var y: Double = 0.0
+    var z: Double = 0.0
+
+    init {
+        updateHeight()
+    }
 
     private fun updateHeight() {
         if (modifiedLines.isEmpty()) {
@@ -27,17 +35,12 @@ class WireframeObject(
         }
     }
 
-    init {
-        modifiedLines.addAll(lines)
-        updateHeight()
-    }
-
-    override fun linearize(preferredStep: Double) {
-        TODO("Not yet implemented")
-    }
-
-    override fun toLinearized(preferredStep: Double): List<Line3> {
-        return modifiedLines
+    override fun translate(x: Double, y: Double, z: Double) {
+        this.x += x
+        this.y += y
+        this.z += z
+        val point = Point3(x, y, z)
+        modifiedLines.forEach { it.translate(point) }
     }
 
     override fun scale(factor: Double) {
@@ -74,6 +77,21 @@ class WireframeObject(
 
     override fun toAppliedPerspective(fov: Double, aspect: Double, n: Double, f: Double): WireframeObject {
         return WireframeObject(modifiedLines.map { it.toAppliedPerspective(fov, aspect, n, f) })
+    }
+
+    fun toNormalized(): WireframeObject {
+        val absoluteMax = lines.maxOf { it.direction.norm() }
+        val avgX = lines.sumOf { it.start.x + it.end.x } / lines.size / absoluteMax / 2
+        val avgY = lines.sumOf { it.start.y + it.end.y } / lines.size / absoluteMax / 2
+        val avgZ = lines.sumOf { it.start.z + it.end.z } / lines.size / absoluteMax / 2
+        val result = lines.map {
+            val normIt = it / absoluteMax
+            Line3(
+                Point3(normIt.start.x - avgX, normIt.start.y - avgY, normIt.start.z - avgZ),
+                Point3(normIt.end.x - avgX, normIt.end.y - avgY, normIt.end.z - avgZ)
+            )
+        }.toMutableList()
+        return WireframeObject(result)
     }
 
 }

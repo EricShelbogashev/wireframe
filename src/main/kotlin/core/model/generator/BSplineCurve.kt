@@ -1,11 +1,11 @@
-package model.generator
+package core.model.generator
 
-import model.algebra.Line3
-import model.algebra.Point3
-import model.algebra.asMatrix
-import model.algebra.base.DoubleMatrix
-import model.algebra.toPoint3
-import model.engine.Linearizable
+import core.model.engine.Linearizable
+import core.model.algebra.Line3
+import core.model.algebra.Point3
+import core.model.algebra.asMatrix
+import core.model.algebra.base.DoubleMatrix
+import core.model.algebra.toPoint3
 import kotlin.math.pow
 
 /**
@@ -17,6 +17,7 @@ import kotlin.math.pow
 class BSplineCurve : Linearizable {
     private val controlPoints: MutableList<Point3> = mutableListOf()
     private val lineSegments: MutableList<Line3> = mutableListOf()
+    val controlPointsBSpline: MutableList<Point3> = mutableListOf()
 
     companion object {
         /**
@@ -69,7 +70,16 @@ class BSplineCurve : Linearizable {
         lineSegments.addAll(segments)
     }
 
+    override fun linearize(n: Int) {
+        TODO()
+    }
+
     override fun toLinearized(preferredStep: Double): List<Line3> {
+        val (n, _) = Linearizable.fit(1.0, preferredStep)
+        return toLinearized(n)
+    }
+
+    override fun toLinearized(n: Int): List<Line3> {
         if (controlPoints.size == 1) return listOf(Line3(controlPoints.first(), controlPoints.first()))
         if (controlPoints.size == 2) return listOf(Line3(controlPoints.first(), controlPoints[1]))
         if (controlPoints.size == 3) return listOf(
@@ -78,11 +88,12 @@ class BSplineCurve : Linearizable {
             )
         )
 
-        val (n, step) = Linearizable.fit(1.0, preferredStep)
+        val step = 1.0 / n
 
         val lines = mutableListOf<Line3>()
         val points = mutableListOf<Point3>()
 
+        controlPointsBSpline.clear()
         for (i in 1..(controlPoints.size - 3)) {
             val gSI = DoubleMatrix(
                 4, 2, doubleArrayOf(
@@ -98,6 +109,12 @@ class BSplineCurve : Linearizable {
                 val rI = tI * SPLINE_MATRIX * gSI
                 val point = rI.transpose().toPoint3()
                 points.add(point)
+                if (j == 0) {
+                    controlPointsBSpline.add(point)
+                }
+                if (i == controlPoints.size - 3 && j == n) {
+                    controlPointsBSpline.add(point)
+                }
             }
         }
 
@@ -106,5 +123,17 @@ class BSplineCurve : Linearizable {
             lines.add(line2)
         }
         return lines
+    }
+
+    fun remove(index: Int) {
+        controlPoints.removeAt(index)
+    }
+
+    fun removeLast() {
+        controlPoints.removeLast()
+    }
+
+    fun update(draggingPointIndex: Int, point3: Point3) {
+        controlPoints[draggingPointIndex] = point3
     }
 }

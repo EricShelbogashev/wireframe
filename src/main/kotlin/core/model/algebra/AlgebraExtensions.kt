@@ -1,7 +1,7 @@
-package model.algebra
+package core.model.algebra
 
-import model.algebra.base.DoubleMatrix
-import model.algebra.base.Matrix
+import core.model.algebra.base.DoubleMatrix
+import core.model.algebra.base.Matrix
 
 fun DoubleArray.asMatrix(rows: Int, cols: Int): DoubleMatrix = DoubleMatrix(rows, cols, this)
 

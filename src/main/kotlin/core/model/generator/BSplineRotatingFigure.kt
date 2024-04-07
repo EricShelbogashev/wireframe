@@ -1,37 +1,49 @@
-package model.generator
+package core.model.generator
 
-import model.algebra.Line3
-import model.algebra.Point3
-import model.engine.Linearizable
+import core.Context
+import core.model.engine.Linearizable
+import core.model.algebra.Line3
+import core.model.algebra.Point3
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
 class BSplineRotatingFigure(
     private val curve: BSplineCurve,
-    private val rotationSteps: Int,
+    context: Context
 ) : Linearizable {
+    private val rotationSteps: Int = context.m
+    private val circleSteps: Int = context.m1
     private val theta: Double = 2 * PI / rotationSteps
     private val lineSegments: MutableList<Line3> = mutableListOf()
+    private val eth: Double = 2 * PI / circleSteps
 
-    override fun linearize(preferredStep: Double) {
+    override fun linearize(n: Int) {
         lineSegments.clear()
-        linearizeToList(lineSegments, preferredStep)
+        linearizeToList(lineSegments, n)
     }
 
-    override fun toLinearized(preferredStep: Double): List<Line3> {
+    override fun toLinearized(n: Int): List<Line3> {
         val listOf = mutableListOf<Line3>()
-        linearizeToList(listOf, preferredStep)
+        linearizeToList(listOf, n)
         return listOf
     }
 
-    private fun linearizeToList(list: MutableList<Line3>, preferredStep: Double) {
-        val curveLines: List<Line3> = curve.toLinearized(preferredStep)
+    private fun linearizeToList(list: MutableList<Line3>, n: Int) {
+        val curveLines: List<Line3> = curve.toLinearized(n)
         for (i in 0 until rotationSteps) {
             for (line in curveLines) {
                 val rotatedStart = rotatePoint(line.start, i * theta)
                 val rotatedEnd = rotatePoint(line.end, i * theta)
                 list.add(Line3(rotatedStart, rotatedEnd))
+            }
+        }
+        for (point in curve.controlPointsBSpline) {
+            var last = point
+            for (i in 1..circleSteps) {
+                val cur = rotatePoint(point, i * eth)
+                list.add(Line3(last, cur))
+                last = cur
             }
         }
     }

@@ -1,4 +1,4 @@
-package model.algebra.base
+package core.model.algebra.base
 
 import kotlin.math.pow
 import kotlin.math.sqrt

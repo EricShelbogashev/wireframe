@@ -1,4 +1,4 @@
-package model.engine
+package core.model.engine
 
 
 // Здесь должны задаваться физические свойства объекта для трассировки

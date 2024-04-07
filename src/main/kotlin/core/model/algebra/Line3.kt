@@ -1,7 +1,7 @@
-package model.algebra
+package core.model.algebra
 
-import model.algebra.base.DoubleLine
-import model.algebra.properties.Transformable
+import core.model.algebra.base.DoubleLine
+import core.model.algebra.properties.Transformable
 
 class Line3(start: Point3, end: Point3) : DoubleLine<Point3, Line3>(
     start,

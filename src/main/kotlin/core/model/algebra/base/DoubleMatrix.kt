@@ -1,4 +1,4 @@
-package model.algebra.base
+package core.model.algebra.base
 
 import kotlin.math.tan
 
@@ -167,20 +167,14 @@ class DoubleMatrix(override val rows: Int, override val cols: Int, generator: (I
          * а также верхняя и нижняя стороны являются зеркальными изображениями друг друга относительно центральной оси усеченного конуса.
          */
         fun perspective(fov: Double, aspect: Double, n: Double, f: Double): DoubleMatrix {
-            // TODO: добавить зависимость от Z
-            val tanHalfFOV = tan(fov / 2)
-            val range = n - f
-
+            val cf = 1 / tan(fov / 2)
             return DoubleMatrix(4, 4) lambda@{ row, col ->
                 when (row) {
-                    0 -> if (col == 0) return@lambda 1 / (aspect * tanHalfFOV)
-                    1 -> if (col == 1) return@lambda 1 / tanHalfFOV
-                    2 -> {
-                        if (col == 2) return@lambda (n + f) / range
-                        if (col == 3) return@lambda (2 * f * n) / range
-                    }
-
-                    3 -> if (col == 2) return@lambda -1.0
+                    0 -> if (col == 0) fov / aspect
+                    1 -> if (col == 1) cf
+                    2 -> if (col == 2) (f + n) / (n - f)
+                    2 -> if (col == 3) (2 * f * n) / (n - f)
+                    3 -> if (col == 2) 1
                 }
                 .0
             }

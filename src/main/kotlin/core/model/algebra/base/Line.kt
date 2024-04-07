@@ -1,10 +1,13 @@
-package model.algebra.base
+package core.model.algebra.base
 
-import model.algebra.properties.Normalizable
+import core.model.algebra.properties.Normalizable
 
-interface Line<T> : Normalizable<T, Line<T>> {
+interface Line<T : Number> : Normalizable<T, Line<T>> {
     val start: Point<T>
     val end: Point<T>
     val dimension: Int
     val direction: Point<T>
+
+    operator fun div(scalar: T): Line<T>
+    operator fun divAssign(scalar: T)
 }

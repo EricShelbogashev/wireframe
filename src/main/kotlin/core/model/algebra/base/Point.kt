@@ -1,8 +1,8 @@
-package model.algebra.base
+package core.model.algebra.base
 
-import model.algebra.properties.Normalizable
+import core.model.algebra.properties.Normalizable
 
-interface Point<T> : Normalizable<T, Point<T>> {
+interface Point<T: Number> : Normalizable<T, Point<T>> {
     val dimension: Int
     fun get(index: Int): T
     fun component(index: Int): T

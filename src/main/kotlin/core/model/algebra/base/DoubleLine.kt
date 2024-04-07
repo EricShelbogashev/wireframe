@@ -1,6 +1,6 @@
-package model.algebra.base
+package core.model.algebra.base
 
-import model.algebra.Point3
+import core.model.algebra.Point3
 
 open class DoubleLine<PointHeir : DoublePoint<PointHeir>, LineHeir : DoubleLine<PointHeir, LineHeir>>(
     final override val start: PointHeir,
@@ -9,6 +9,15 @@ open class DoubleLine<PointHeir : DoublePoint<PointHeir>, LineHeir : DoubleLine<
 ) : Line<Double> {
     override val dimension: Int = start.dimension
     override val direction: PointHeir = end - start
+
+    override fun divAssign(scalar: Double) {
+        start /= scalar
+        end /= scalar
+    }
+
+    override fun div(scalar: Double): LineHeir {
+        return generator(start / scalar, end / scalar)
+    }
 
     init {
         require(start.dimension == end.dimension) { "размерности начальной и конечной точек должны совпадать" }

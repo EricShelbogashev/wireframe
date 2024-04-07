@@ -1,4 +1,4 @@
-package model.algebra.properties
+package core.model.algebra.properties
 
 interface Transformable<T> {
     fun scale(factor: Double)
@@ -10,7 +10,7 @@ interface Transformable<T> {
 
     /**
      * Применяет перспективное преобразование к текущему объекту.
-     * Изменяет состояние текущего объекта.
+     * Изменяет состояние текущего объекта. Предполагается, что камера находится на оси Z.
      *
      * @param fov Угол обзора в радианах.
      * @param aspect Соотношение сторон области просмотра.

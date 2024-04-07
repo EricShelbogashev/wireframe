@@ -1,3 +1,5 @@
-package model.engine
+package core.model.engine
 
-interface Scene
+open class Scene<T : SceneObject<T>> {
+    val objects = mutableMapOf<String, T>()
+}

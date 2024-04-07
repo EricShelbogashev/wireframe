@@ -1,6 +1,6 @@
-package model.engine
+package core.model.engine
 
-import model.algebra.Point3
+import core.model.algebra.Point3
 import kotlin.math.PI
 import kotlin.math.tan
 
@@ -18,13 +18,13 @@ import kotlin.math.tan
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 class Camera {
     // вертикальный угол обзора
-    val fov: Double
-    val aspect: Double
-    val near: Double
-    val far: Double
-    val position: Point3
-    val height: Int
-    val width: Int
+    var fov: Double
+    var aspect: Double
+    var near: Double
+    var far: Double
+    var position: Point3
+    var height: Int
+    var width: Int
 
     /**
      * @throws IllegalArgumentException Если аргументы выходят за ограничения параметров.

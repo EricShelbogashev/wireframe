@@ -1,8 +1,8 @@
-package model.algebra
+package core.model.algebra
 
-import model.algebra.base.DoubleMatrix
-import model.algebra.base.DoublePoint
-import model.algebra.properties.Transformable
+import core.model.algebra.base.DoubleMatrix
+import core.model.algebra.base.DoublePoint
+import core.model.algebra.properties.Transformable
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -13,6 +13,8 @@ class Point3(x: Double, y: Double, z: Double) : DoublePoint<Point3>(
     val x get() = component1()
     val y get() = component2()
     val z get() = component3()
+
+    constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble())
 
     operator fun component1(): Double = components[0]
     operator fun component2(): Double = components[1]
@@ -61,20 +63,20 @@ class Point3(x: Double, y: Double, z: Double) : DoublePoint<Point3>(
     }
 
     override fun applyPerspective(fov: Double, aspect: Double, n: Double, f: Double) {
-        // TODO: переделать, 71 страница https://portal.tpu.ru/SHARED/j/JBOLOTOVA/academic/ComputerGraphics/6.Perspective.pdf
         val perspective: DoubleMatrix = DoubleMatrix.perspective(fov, aspect, n, f)
-        val pointMatrix = DoubleMatrix.row(doubleArrayOf(x, y, z, .0))
-        applyMatrix { pointMatrix * perspective }
+        applyMatrix {
+            val prod = it * perspective
+            prod / prod[0, 3] // Нормируем по w каждый элемент вектора.
+        }
     }
 
     override fun toAppliedPerspective(fov: Double, aspect: Double, n: Double, f: Double): Point3 {
-//        val perspective: DoubleMatrix = DoubleMatrix.perspective(fov, aspect, n, f)
-        // TODO: переделать
-        return Point3(
-            x / (f * z + 1.0),
-            y / (f * z + 1.0),
-            z / (f * z + 1.0),
-        )
+        val perspective: DoubleMatrix = DoubleMatrix.perspective(fov, aspect, n, f)
+        return toAppliedMatrix {
+            val prod = it * perspective
+            if (prod[0, 3] == .0) return@toAppliedMatrix prod
+            prod / prod[0, 3] // Нормируем по w каждый элемент вектора.
+        }
     }
 
     private fun applyMatrix(transform: (DoubleMatrix) -> DoubleMatrix) {
