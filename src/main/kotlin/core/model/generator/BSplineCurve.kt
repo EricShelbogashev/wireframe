@@ -1,11 +1,11 @@
 package core.model.generator
 
-import core.model.engine.Linearizable
 import core.model.algebra.Line3
 import core.model.algebra.Point3
 import core.model.algebra.asMatrix
 import core.model.algebra.base.DoubleMatrix
 import core.model.algebra.toPoint3
+import core.model.engine.Linearizable
 import kotlin.math.pow
 
 /**

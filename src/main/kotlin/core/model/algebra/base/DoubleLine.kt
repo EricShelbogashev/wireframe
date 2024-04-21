@@ -42,4 +42,8 @@ open class DoubleLine<PointHeir : DoublePoint<PointHeir>, LineHeir : DoubleLine<
         start += shift
         end += shift
     }
+
+    fun toTranslated(shift: Point3): LineHeir {
+        return generator(start + shift, end + shift)
+    }
 }

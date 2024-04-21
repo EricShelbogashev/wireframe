@@ -3,7 +3,7 @@ package core.model.algebra
 import core.model.algebra.base.DoubleLine
 import core.model.algebra.properties.Transformable
 
-class Line3(start: Point3, end: Point3) : DoubleLine<Point3, Line3>(
+class Line3(start: Point3 = Point3(0, 0, 0), end: Point3 = Point3(0, 0, 0)) : DoubleLine<Point3, Line3>(
     start,
     end,
     { s, e -> Line3(s, e) }
@@ -53,11 +53,4 @@ class Line3(start: Point3, end: Point3) : DoubleLine<Point3, Line3>(
     override fun toString(): String {
         return "Line3($start, $end)"
     }
-
-//    fun t(point3: Point3): Line3 {
-//        return Line3(
-//            start + point3,
-//            end + point3,
-//        )
-//    }
 }

@@ -8,5 +8,5 @@ import core.model.engine.SceneObject
 data class Subscription<T : SceneObject<T>>(
     val listener: OnUpdateListener,
     val scene: Scene<T>,
-    val camera: Camera
+    val camera: Camera,
 )

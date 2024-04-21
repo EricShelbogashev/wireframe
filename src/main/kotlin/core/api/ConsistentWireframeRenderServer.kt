@@ -2,11 +2,11 @@ package core.api
 
 import api.OnUpdateListener
 import api.RenderServer
+import core.model.algebra.Line3
 import core.model.engine.Camera
 import core.model.engine.Scene
 import core.model.engine.SceneObject
 import core.model.objects.WireframeObject
-import core.model.algebra.Line3
 import java.awt.BasicStroke
 import java.awt.Color
 import java.awt.Graphics2D
@@ -48,7 +48,7 @@ object ConsistentWireframeRenderServer : RenderServer {
                 g.fillRect(0, 0, result.width, result.height)
 
                 scene.objects.forEach { (id, obj) -> drawObject(id, obj, g) }
-                g.dispose();
+                g.dispose()
                 onUpdate(result)
             }
 

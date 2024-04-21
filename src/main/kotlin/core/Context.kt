@@ -1,5 +1,6 @@
 package core
 
+import core.model.algebra.Point3
 import core.model.generator.BSplineCurve
 import core.model.objects.WireframeObject
 
@@ -16,13 +17,13 @@ import core.model.objects.WireframeObject
 data class Context(
     var wireframeObject: WireframeObject? = null,
     var bSplineCurve: BSplineCurve? = null,
-    var k: Int = 8,
     var n: Int = 8,
     var m: Int = 8,
     var m1: Int = 8,
     var gridStep: Int = 50,
     var fieldOfView: Double = Math.PI / 2,
-    var aspectRatio: Double = 1.0,
-    var nearClip: Double = 1.0,
-    var farClip: Double = 0.001,
+    var aspectRatio: Double = 5 / 3.0,
+    var nearClip: Double = 10.0,
+    var shift: Double = 10.0,
+    val controlPoints: MutableList<Point3> = mutableListOf(),
 )

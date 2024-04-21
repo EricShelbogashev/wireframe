@@ -1,9 +1,9 @@
 import core.Context
+import core.model.algebra.Line3
+import core.model.algebra.Point3
 import core.model.generator.BSplineCurve
 import core.model.generator.BSplineRotatingFigure
 import core.model.objects.WireframeObject
-import core.model.algebra.Line3
-import core.model.algebra.Point3
 import java.awt.Color
 import java.awt.Graphics
 import java.awt.event.*
@@ -18,9 +18,8 @@ import kotlin.math.sqrt
  *
  * @property context Контекст приложения.
  */
-class WireframeEditPanel(private val context: Context) : JPanel() {
+class WireframeEditPanel(private val context: Context, private val renderView: WireframePanel) : JPanel() {
     private val bSplineCurve = context.bSplineCurve ?: BSplineCurve()
-    private val points = mutableListOf<Point3>()
     private val undoKeyStroke = if (System.getProperty("os.name").startsWith("Mac")) {
         KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.META_DOWN_MASK)
     } else {
@@ -37,8 +36,8 @@ class WireframeEditPanel(private val context: Context) : JPanel() {
             override fun mousePressed(e: MouseEvent) {
                 val x = e.x.toDouble()
                 val y = e.y.toDouble()
-                for (i in points.indices) {
-                    val p = points[i]
+                for (i in context.controlPoints.indices) {
+                    val p = context.controlPoints[i]
                     val distance =
                         sqrt((x - width / 2 - p.x) * (x - width / 2 - p.x) + (y - height / 2 - p.y) * (y - height / 2 - p.y))
                     if (distance <= pointDiameter) {
@@ -84,7 +83,7 @@ class WireframeEditPanel(private val context: Context) : JPanel() {
         getInputMap(WHEN_IN_FOCUSED_WINDOW).put(undoKeyStroke, "undo")
         actionMap.put("undo", object : AbstractAction() {
             override fun actionPerformed(e: ActionEvent?) {
-                if (points.isNotEmpty()) {
+                if (context.controlPoints.isNotEmpty()) {
                     removeLastPoint()
                     repaint()
                 }
@@ -93,7 +92,7 @@ class WireframeEditPanel(private val context: Context) : JPanel() {
     }
 
     private fun updatePoint(index: Int, point: Point3) {
-        points[index] = point
+        context.controlPoints[index] = point
         bSplineCurve.update(index, point)
     }
 
@@ -102,7 +101,7 @@ class WireframeEditPanel(private val context: Context) : JPanel() {
         // Добавляем точку в кривую B-сплайн
         bSplineCurve.add(Point3(x - width / 2, y - height / 2, 0.0))
         // Добавляем точку в список для отображения
-        points.add(Point3(x - width / 2, y - height / 2, 0.0))
+        context.controlPoints.add(Point3(x - width / 2, y - height / 2, 0.0))
         // Перерисовываем панель
         repaint()
     }
@@ -111,14 +110,14 @@ class WireframeEditPanel(private val context: Context) : JPanel() {
         // Удаляем точку из кривой B-сплайн
         bSplineCurve.remove(index)
         // Удаляем точку из списка для отображения
-        points.removeAt(index)
+        context.controlPoints.removeAt(index)
         // Перерисовываем панель
         repaint()
     }
 
     // Метод для удаления последней добавленной точки
     private fun removeLastPoint() {
-        points.removeLast()
+        context.controlPoints.removeLast()
         bSplineCurve.removeLast()
     }
 
@@ -155,7 +154,6 @@ class WireframeEditPanel(private val context: Context) : JPanel() {
         g.drawLine(0, height / 2, width, height / 2) // Горизонтальная линия
     }
 
-
     // Метод для рисования B-сплайна
     private fun drawBSpline(g: Graphics) {
         g.color = Color.WHITE
@@ -178,8 +176,8 @@ class WireframeEditPanel(private val context: Context) : JPanel() {
 
     // Метод для рисования добавленных точек
     private fun drawPoints(g: Graphics) {
-        if (points.isEmpty()) return
-        val list = points.map {
+        if (context.controlPoints.isEmpty()) return
+        val list = context.controlPoints.map {
             Point3(it.x + width / 2, it.y + height / 2, 0.0)
         }
         var (lX, lY) = list.first()
@@ -200,6 +198,7 @@ class WireframeEditPanel(private val context: Context) : JPanel() {
         val linearized = rotatingFigure.toLinearized(context.n)
         if (linearized.isEmpty()) return
         context.wireframeObject = WireframeObject(linearized).toNormalized()
+        renderView.repaint()
     }
 }
 

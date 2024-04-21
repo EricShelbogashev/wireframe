@@ -1,19 +1,19 @@
 package core.model.generator
 
 import core.Context
-import core.model.engine.Linearizable
 import core.model.algebra.Line3
 import core.model.algebra.Point3
+import core.model.engine.Linearizable
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
 class BSplineRotatingFigure(
     private val curve: BSplineCurve,
-    context: Context
+    context: Context,
 ) : Linearizable {
     private val rotationSteps: Int = context.m
-    private val circleSteps: Int = context.m1
+    private val circleSteps: Int = context.m1 * context.m
     private val theta: Double = 2 * PI / rotationSteps
     private val lineSegments: MutableList<Line3> = mutableListOf()
     private val eth: Double = 2 * PI / circleSteps

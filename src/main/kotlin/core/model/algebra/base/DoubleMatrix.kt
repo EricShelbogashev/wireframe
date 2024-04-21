@@ -112,13 +112,6 @@ class DoubleMatrix(override val rows: Int, override val cols: Int, generator: (I
     }
 
     companion object {
-        fun identity(size: Int): DoubleMatrix {
-            require(size > 0) { "Size must be positive" }
-            return DoubleMatrix(size, size, DoubleArray(size * size) { index ->
-                if (index / size == index % size) 1.0 else 0.0
-            })
-        }
-
         fun column(data: DoubleArray): DoubleMatrix {
             require(data.isNotEmpty()) { "Array must contains at least 1 element" }
             return DoubleMatrix(data.size, 1, data)
@@ -127,57 +120,6 @@ class DoubleMatrix(override val rows: Int, override val cols: Int, generator: (I
         fun row(data: DoubleArray): DoubleMatrix {
             require(data.isNotEmpty()) { "Array must contains at least 1 element" }
             return DoubleMatrix(1, data.size, data)
-        }
-
-        fun scale(scales: DoubleArray): DoubleMatrix {
-            require(scales.isNotEmpty()) { "At least one scale factor must be provided" }
-
-            val size = scales.size
-            return DoubleMatrix(size, size, DoubleArray(size * size) { index ->
-                val col = index % size
-                val row = index / size
-                if (row == col) {
-                    scales[col]
-                } else {
-                    0.0
-                }
-            })
-        }
-
-        /**
-         * Генерирует матрицу перспективной проекции на основе заданных параметров, создавая симметричный усеченный конус.
-         * Эту матрицу можно использовать в 3D графике для имитации искажения перспективы, видимого через камеру или глаз.
-         *
-         * @param fov Угол обзора в радианах. Это вертикальный угол, через который будет наблюдаться сцена.
-         * @param aspect Соотношение сторон области просмотра (ширина / высота). Это определяет форму усеченного конуса.
-         * @param n Расстояние от наблюдателя до ближней плоскости отсечения. Объекты, находящиеся ближе этого расстояния, не будут видимы.
-         * @param f Расстояние от наблюдателя до дальней плоскости отсечения. Объекты, находящиеся дальше этого расстояния, не будут видимы.
-         * @return Матрица перспективной проекции 4x4 в виде [DoubleMatrix], которая преобразует 3D точки в 2D пространство экрана,
-         * сохраняя эффект перспективы. Эта матрица отображает усеченный конус обзора на единичный куб и переворачивает ось z.
-         *
-         * Элементы матрицы рассчитываются следующим образом:
-         * - M[0][0] = 1 / (aspect * tan(fov / 2)), что масштабирует координаты x.
-         * - M[1][1] = 1 / tan(fov / 2), что масштабирует координаты y.
-         * - M[2][2] = (n + f) / (n - f), что линейно масштабирует координаты z и определяет диапазон глубины.
-         * - M[2][3] = (2 * f * n) / (n - f), что перемещает координаты z, облегчая перспективное деление.
-         * - M[3][2] = -1, что создает эффект перспективы путем преобразования координаты w.
-         * - Все остальные элементы равны 0, за исключением диагональных, необходимых для идентичного преобразования, и M[3][3], который равен 0 для облегчения расчетов перспективы.
-         *
-         * Этот метод основан на предположении, что усеченный конус симметричен относительно оси z, что означает, что левая и правая стороны,
-         * а также верхняя и нижняя стороны являются зеркальными изображениями друг друга относительно центральной оси усеченного конуса.
-         */
-        fun perspective(fov: Double, aspect: Double, n: Double, f: Double): DoubleMatrix {
-            val cf = 1 / tan(fov / 2)
-            return DoubleMatrix(4, 4) lambda@{ row, col ->
-                when (row) {
-                    0 -> if (col == 0) fov / aspect
-                    1 -> if (col == 1) cf
-                    2 -> if (col == 2) (f + n) / (n - f)
-                    2 -> if (col == 3) (2 * f * n) / (n - f)
-                    3 -> if (col == 2) 1
-                }
-                .0
-            }
         }
     }
 }

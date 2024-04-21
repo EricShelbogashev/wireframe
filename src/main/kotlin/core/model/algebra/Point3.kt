@@ -1,5 +1,7 @@
 package core.model.algebra
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
 import core.model.algebra.base.DoubleMatrix
 import core.model.algebra.base.DoublePoint
 import core.model.algebra.properties.Transformable
@@ -14,7 +16,12 @@ class Point3(x: Double, y: Double, z: Double) : DoublePoint<Point3>(
     val y get() = component2()
     val z get() = component3()
 
-    constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble())
+    @JsonCreator
+    constructor(@JsonProperty("x") x: Int, @JsonProperty("y") y: Int, @JsonProperty("z") z: Int) : this(
+        x.toDouble(),
+        y.toDouble(),
+        z.toDouble()
+    )
 
     operator fun component1(): Double = components[0]
     operator fun component2(): Double = components[1]
@@ -63,20 +70,19 @@ class Point3(x: Double, y: Double, z: Double) : DoublePoint<Point3>(
     }
 
     override fun applyPerspective(fov: Double, aspect: Double, n: Double, f: Double) {
-        val perspective: DoubleMatrix = DoubleMatrix.perspective(fov, aspect, n, f)
-        applyMatrix {
-            val prod = it * perspective
-            prod / prod[0, 3] // Нормируем по w каждый элемент вектора.
-        }
+        val zProj = z - n // Расстояние от плоскости экрана до нашей точки.
+        val fDistance = n // Фокус.
+        val r = 1 / fDistance
+        components[0] = x / (1 + r * zProj)
+        components[1] = y / (1 + r * zProj)
+        components[2] = z / (1 + r * zProj)
     }
 
     override fun toAppliedPerspective(fov: Double, aspect: Double, n: Double, f: Double): Point3 {
-        val perspective: DoubleMatrix = DoubleMatrix.perspective(fov, aspect, n, f)
-        return toAppliedMatrix {
-            val prod = it * perspective
-            if (prod[0, 3] == .0) return@toAppliedMatrix prod
-            prod / prod[0, 3] // Нормируем по w каждый элемент вектора.
-        }
+        val zProj = z - n // Расстояние от плоскости экрана до нашей точки.
+        val fDistance = n // Фокус.
+        val r = 1.0 / fDistance
+        return Point3(x / (1 + r * zProj), y / (1 + r * zProj), z / (1 + r * zProj))
     }
 
     private fun applyMatrix(transform: (DoubleMatrix) -> DoubleMatrix) {

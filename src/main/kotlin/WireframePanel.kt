@@ -16,12 +16,13 @@ class WireframePanel(private val context: Context) : JPanel(), MouseWheelListene
     private var angleY = 0.0
     private var lastX = 0
     private var lastY = 0
-    private var scaleCoefficient = 100.0
+    private var scaleCoefficient = 1.0
 
     init {
         background = Color.BLACK
         addMouseWheelListener(this)
         setupMouseListeners()
+        setSize(640, 480)
     }
 
     fun resetAngles() {
@@ -62,13 +63,13 @@ class WireframePanel(private val context: Context) : JPanel(), MouseWheelListene
 
     private fun drawAxes(g2d: Graphics2D) {
         val scale = 50
-        val oX = Point3(scale, 0, 0).toRotated(0.0, angleX, angleY)
-        val oY = Point3(0, scale, 0).toRotated(0.0, angleX, angleY)
-        val oZ = Point3(0, 0, scale).toRotated(0.0, angleX, angleY)
+        val oX = Point3(scale, 0, 0).toRotated(angleX, angleY, 0.0)
+        val oY = Point3(0, scale, 0).toRotated(angleX, angleY, 0.0)
+        val oZ = Point3(0, 0, scale).toRotated(angleX, angleY, 0.0)
 
-        drawAxe(g2d, oX, Color.blue)
-        drawAxe(g2d, oY, Color.red)
-        drawAxe(g2d, oZ, Color.green)
+        drawAxe(g2d, oX, Color.red)
+        drawAxe(g2d, oY, Color.green)
+        drawAxe(g2d, oZ, Color.blue)
     }
 
     private fun drawAxe(g2d: Graphics2D, axe: Point3, color: Color) {
@@ -86,13 +87,20 @@ class WireframePanel(private val context: Context) : JPanel(), MouseWheelListene
             return
         }
         val transformedObject = context.wireframeObject!!
-            .toRotated(0.0, angleX, angleY)
-            .toScaled(scaleCoefficient)
+            .toRotated(angleX, angleY, .0)
+            .toTranslated(Point3(0.0, 0.0, context.shift))
+            .toAppliedPerspective(
+                context.fieldOfView,
+                context.aspectRatio,
+                context.nearClip,
+                context.shift,
+            ).toScaled(scaleCoefficient)
 
         g2.color = Color.LIGHT_GRAY
 
         val lines: List<Line3> = transformedObject.lines
         lines.forEach { line ->
+            if (line.start.z <= 0 || line.end.z <= 0) return@forEach
             val (x1, y1) = toScreenCoords(centerX, centerY, line.start)
             val (x2, y2) = toScreenCoords(centerX, centerY, line.end)
             val colorAlpha = calculateColorAlpha(line, transformedObject)
@@ -103,12 +111,12 @@ class WireframePanel(private val context: Context) : JPanel(), MouseWheelListene
     }
 
     private fun toScreenCoords(centerX: Int, centerY: Int, point: Point3): Pair<Int, Int> {
-        return Pair(centerX + point.y.toInt(), centerY - point.z.toInt())
+        return Pair(centerX + point.x.toInt(), centerY - point.y.toInt())
     }
 
     private fun calculateColorAlpha(line: Line3, obj: WireframeObject): Color {
-        val minHeight = (line.start.x + line.end.x) / 2 - obj.minHeight
-        val alpha = max(64, min(255, (255.0 * minHeight / (obj.maxHeight - obj.minHeight)).toInt()))
+        val minHeight = (line.start.z + line.end.z) / 2 - obj.minHeight
+        val alpha = max(54, min(255, (255.0 * minHeight / (obj.maxHeight - obj.minHeight)).toInt()))
         return Color(250, 240, 230, alpha)
     }
 
@@ -118,7 +126,7 @@ class WireframePanel(private val context: Context) : JPanel(), MouseWheelListene
     }
 
     fun normalize() {
-        scaleCoefficient = min(height, width) / 8.0
+        scaleCoefficient = min(height, width) / 2.0
         repaint()
     }
 }

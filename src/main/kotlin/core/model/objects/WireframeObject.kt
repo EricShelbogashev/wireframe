@@ -7,7 +7,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 class WireframeObject(
-    lines: List<Line3>,
+    lines: List<Line3> = listOf(),
 ) : SceneObject<WireframeObject> {
     private var modifiedLines: MutableList<Line3> = lines.toMutableList()
     val lines get(): List<Line3> = modifiedLines
@@ -80,17 +80,22 @@ class WireframeObject(
     }
 
     fun toNormalized(): WireframeObject {
-        val absoluteMax = lines.maxOf { it.direction.norm() }
+        val absoluteMax = lines.maxOf { max(it.start.norm(), it.end.norm()) }
         val avgX = lines.sumOf { it.start.x + it.end.x } / lines.size / absoluteMax / 2
         val avgY = lines.sumOf { it.start.y + it.end.y } / lines.size / absoluteMax / 2
         val avgZ = lines.sumOf { it.start.z + it.end.z } / lines.size / absoluteMax / 2
         val result = lines.map {
             val normIt = it / absoluteMax
             Line3(
-                Point3(normIt.start.x - avgX, normIt.start.y - avgY, normIt.start.z - avgZ),
-                Point3(normIt.end.x - avgX, normIt.end.y - avgY, normIt.end.z - avgZ)
+                Point3(normIt.start.z - avgZ, normIt.start.y - avgY, normIt.start.x - avgX),
+                Point3(normIt.end.z - avgZ, normIt.end.y - avgY, normIt.end.x - avgX)
             )
         }.toMutableList()
+        return WireframeObject(result)
+    }
+
+    fun toTranslated(point3: Point3) : WireframeObject {
+        val result = lines.map { it.toTranslated(point3) }
         return WireframeObject(result)
     }
 

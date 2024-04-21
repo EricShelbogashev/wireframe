@@ -16,6 +16,7 @@ repositories {
 
 dependencies {
     implementation("com.formdev:flatlaf:3.4.1")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
     implementation(compose.desktop.currentOs)
 }
 
