@@ -140,9 +140,9 @@
       <list>
         <item itemvalue="Kotlin.Window" />
         <item itemvalue="Kotlin.SplitPaneExample" />
+        <item itemvalue="Kotlin.ResizablePanel" />
         <item itemvalue="Kotlin.ResizableNestedPanels" />
         <item itemvalue="Application.ResizablePhotoshopStyle" />
-        <item itemvalue="Kotlin.ResizablePanel" />
       </list>
     </recent_temporary>
   </component>
