@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93a425be-6742-48eb-a5bb-5dbff8920e7e" name="Changes" comment="commit">
+    <list default="true" id="93a425be-6742-48eb-a5bb-5dbff8920e7e" name="Changes" comment="updated README.md">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Window.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Window.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/WireframePanel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/WireframePanel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/core/model/algebra/Point3.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/core/model/algebra/Point3.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/core/model/objects/WireframeObject.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/core/model/objects/WireframeObject.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +50,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="stage-3" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -81,7 +82,7 @@
     &quot;Kotlin.Window.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;stage-3&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -161,6 +162,9 @@
       <workItem from="1713985297723" duration="13000" />
       <workItem from="1713985620644" duration="5000" />
       <workItem from="1714061196968" duration="17696000" />
+      <workItem from="1714161906067" duration="7000" />
+      <workItem from="1714336586435" duration="713000" />
+      <workItem from="1714337459027" duration="1015000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <option name="closed" value="true" />
@@ -258,7 +262,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714082514577</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="updated README.md">
+      <option name="closed" value="true" />
+      <created>1714083763247</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1714083763247</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -276,8 +288,19 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="updated README.md" />
     <MESSAGE value="commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit" />
+    <MESSAGE value="updated README.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated README.md" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/src/main/kotlin/WireframePanel.kt</url>
+          <line>88</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

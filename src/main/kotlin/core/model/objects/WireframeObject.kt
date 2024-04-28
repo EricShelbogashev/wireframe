@@ -26,8 +26,8 @@ class WireframeObject(
             maxHeight = 0.0
             return
         }
-        minHeight = modifiedLines.minBy { max(it.start.x, it.end.x) }.let { min(it.start.x, it.end.x) }
-        maxHeight = modifiedLines.maxBy { max(it.start.x, it.end.x) }.let { max(it.start.x, it.end.x) }
+        minHeight = modifiedLines.minBy { min(it.start.z, it.end.z) }.let { min(it.start.z, it.end.z) }
+        maxHeight = modifiedLines.maxBy { max(it.start.z, it.end.z) }.let { max(it.start.z, it.end.z) }
         if (minHeight > maxHeight) {
             val tmpMin = minHeight
             minHeight = maxHeight

@@ -95,7 +95,6 @@ class WireframePanel(private val context: Context) : JPanel(), MouseWheelListene
                 context.nearClip,
                 context.shift,
             ).toScaled(scaleCoefficient)
-
         g2.color = Color.LIGHT_GRAY
 
         val lines: List<Line3> = transformedObject.lines
