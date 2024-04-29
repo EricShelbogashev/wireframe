@@ -15,8 +15,8 @@ import kotlin.math.pow
  * с использованием кубических B-сплайнов, которые обеспечивают гладкое и непрерывное соединение между точками.
  */
 class BSplineCurve : Linearizable {
-    private val controlPoints: MutableList<Point3> = mutableListOf()
-    private val lineSegments: MutableList<Line3> = mutableListOf()
+    val controlPoints: MutableList<Point3> = mutableListOf()
+    val lineSegments: MutableList<Line3> = mutableListOf()
     val controlPointsBSpline: MutableList<Point3> = mutableListOf()
 
     companion object {

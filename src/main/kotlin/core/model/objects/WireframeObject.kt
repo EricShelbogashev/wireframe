@@ -9,7 +9,7 @@ import kotlin.math.min
 class WireframeObject(
     lines: List<Line3> = listOf(),
 ) : SceneObject<WireframeObject> {
-    private var modifiedLines: MutableList<Line3> = lines.toMutableList()
+    var modifiedLines: MutableList<Line3> = lines.toMutableList()
     val lines get(): List<Line3> = modifiedLines
     var maxHeight = 0.0
     var minHeight = 255.0

@@ -25,5 +25,5 @@ data class Context(
     var aspectRatio: Double = 5 / 3.0,
     var nearClip: Double = 10.0,
     var shift: Double = 10.0,
-    val controlPoints: MutableList<Point3> = mutableListOf(),
+    var controlPoints: MutableList<Point3> = mutableListOf(),
 )

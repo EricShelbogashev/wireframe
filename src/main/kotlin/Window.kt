@@ -103,7 +103,18 @@ class Window : JFrame() {
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             val selectedFile = fileChooser.selectedFile
             val value = ObjectMapper().readValue(selectedFile, Context::class.java)
-            context = value
+            context.wireframeObject = value.wireframeObject
+            context.bSplineCurve = value.bSplineCurve
+            context.n = value.n
+            context.m = value.m
+            context.m1 = value.m1
+            context.gridStep = value.gridStep
+            context.fieldOfView = value.fieldOfView
+            context.aspectRatio = value.aspectRatio
+            context.nearClip = value.nearClip
+            context.shift = value.shift
+            context.controlPoints = value.controlPoints
+
         }
         repaint()
     }
