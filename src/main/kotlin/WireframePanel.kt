@@ -99,7 +99,7 @@ class WireframePanel(private val context: Context) : JPanel(), MouseWheelListene
 
         val lines: List<Line3> = transformedObject.lines
         lines.forEach { line ->
-            if (line.start.z <= 0 || line.end.z <= 0) return@forEach
+            if (line.start.z >= 0 || line.end.z >= 0) return@forEach
             val (x1, y1) = toScreenCoords(centerX, centerY, line.start)
             val (x2, y2) = toScreenCoords(centerX, centerY, line.end)
             val colorAlpha = calculateColorAlpha(line, transformedObject)
