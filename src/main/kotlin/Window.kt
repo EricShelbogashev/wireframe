@@ -114,6 +114,7 @@ class Window : JFrame() {
             context.nearClip = value.nearClip
             context.shift = value.shift
             context.controlPoints = value.controlPoints
+            initWireframeEditor()
 
         }
         repaint()
