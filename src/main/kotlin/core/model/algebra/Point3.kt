@@ -79,7 +79,7 @@ class Point3(x: Double, y: Double, z: Double) : DoublePoint<Point3>(
     }
 
     override fun toAppliedPerspective(fov: Double, aspect: Double, n: Double, f: Double): Point3 {
-        val zProj = z - n // Расстояние от плоскости экрана до нашей точки.
+        val zProj = -z - n // Расстояние от плоскости экрана до нашей точки.
         val fDistance = n // Фокус.
         val r = 1.0 / fDistance
         return Point3(x / (1 + r * zProj), y / (1 + r * zProj), z)
