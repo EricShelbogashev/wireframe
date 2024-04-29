@@ -26,4 +26,7 @@ data class Context(
     var nearClip: Double = 10.0,
     var shift: Double = 10.0,
     var controlPoints: MutableList<Point3> = mutableListOf(),
-)
+    var angleX: Double = .0,
+    var angleY: Double = .0
+) {
+}

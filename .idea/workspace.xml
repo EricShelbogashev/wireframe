@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="93a425be-6742-48eb-a5bb-5dbff8920e7e" name="Changes" comment="load from file fix" />
+    <list default="true" id="93a425be-6742-48eb-a5bb-5dbff8920e7e" name="Changes" comment="perspective fix">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Window.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Window.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/WireframePanel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/WireframePanel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/core/Context.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/core/Context.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/core/api/ConsistentWireframeRenderServer.kt" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -160,7 +166,7 @@
       <workItem from="1714161906067" duration="7000" />
       <workItem from="1714336586435" duration="713000" />
       <workItem from="1714337459027" duration="1091000" />
-      <workItem from="1714363282450" duration="1013000" />
+      <workItem from="1714363282450" duration="1632000" />
     </task>
     <task id="LOCAL-00001" summary="commit">
       <option name="closed" value="true" />
@@ -298,7 +304,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714364292628</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="perspective fix">
+      <option name="closed" value="true" />
+      <created>1714364552387</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1714364552387</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -320,19 +334,20 @@
     <MESSAGE value="updated README.md" />
     <MESSAGE value="updated color distance selection" />
     <MESSAGE value="load from file fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="load from file fix" />
+    <MESSAGE value="perspective fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="perspective fix" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/main/kotlin/Window.kt</url>
-          <line>119</line>
+          <line>122</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/src/main/kotlin/Window.kt</url>
-          <line>123</line>
+          <line>126</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>

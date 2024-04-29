@@ -12,8 +12,6 @@ import kotlin.math.max
 import kotlin.math.min
 
 class WireframePanel(private val context: Context) : JPanel(), MouseWheelListener {
-    private var angleX = 0.0
-    private var angleY = 0.0
     private var lastX = 0
     private var lastY = 0
     private var scaleCoefficient = 1.0
@@ -26,8 +24,8 @@ class WireframePanel(private val context: Context) : JPanel(), MouseWheelListene
     }
 
     fun resetAngles() {
-        angleX = 0.0
-        angleY = 0.0
+        context.angleX = 0.0
+        context.angleY = 0.0
         repaint()
     }
 
@@ -44,8 +42,8 @@ class WireframePanel(private val context: Context) : JPanel(), MouseWheelListene
                 val dx = e.x - lastX
                 val dy = e.y - lastY
 
-                angleX = (angleX + dy.toDouble() / 500).mod(2 * Math.PI)
-                angleY = (angleY + dx.toDouble() / 500).mod(2 * Math.PI)
+                context.angleX = (context.angleX + dy.toDouble() / 500).mod(2 * Math.PI)
+                context.angleY = (context.angleY + dx.toDouble() / 500).mod(2 * Math.PI)
 
                 lastX = e.x
                 lastY = e.y
@@ -63,9 +61,9 @@ class WireframePanel(private val context: Context) : JPanel(), MouseWheelListene
 
     private fun drawAxes(g2d: Graphics2D) {
         val scale = 50
-        val oX = Point3(scale, 0, 0).toRotated(angleX, angleY, 0.0)
-        val oY = Point3(0, scale, 0).toRotated(angleX, angleY, 0.0)
-        val oZ = Point3(0, 0, scale).toRotated(angleX, angleY, 0.0)
+        val oX = Point3(scale, 0, 0).toRotated(context.angleX, context.angleY, 0.0)
+        val oY = Point3(0, scale, 0).toRotated(context.angleX, context.angleY, 0.0)
+        val oZ = Point3(0, 0, scale).toRotated(context.angleX, context.angleY, 0.0)
 
         drawAxe(g2d, oX, Color.red)
         drawAxe(g2d, oY, Color.green)
@@ -87,7 +85,7 @@ class WireframePanel(private val context: Context) : JPanel(), MouseWheelListene
             return
         }
         val transformedObject = context.wireframeObject!!
-            .toRotated(angleX, angleY, .0)
+            .toRotated(context.angleX, context.angleY, .0)
             .toTranslated(Point3(0.0, 0.0, context.shift))
             .toAppliedPerspective(
                 context.fieldOfView,
